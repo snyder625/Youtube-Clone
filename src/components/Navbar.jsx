@@ -31,7 +31,7 @@ const Search = styled.div`
     justify-content: space-between;
     padding: 5px;
     border: 1px solid #ccc; 
-    border-radius: 3px;
+    border-radius: 15px;
 `
 
 const Input = styled.input`
