@@ -28,8 +28,10 @@ router.get('/random', getRandomVideo)
 //GET VIDEOS OF SUBSCRIBED CHANNELS
 router.get('/sub', verifyToken, subscribedVideos)
 
+//GET VIDEOS BY TAG
 router.get('/tags', getByTag)
 
+//GET VIDEOS BY SEARCH
 router.get('/search', searchVideos)
 
 export default router

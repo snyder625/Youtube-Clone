@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { loginStart, loginSuccess, loginFailure } from '../redux/userSlice'
 import {auth, provider} from '../firebase.js';
-import { signInWithPopup } from 'firebase/auth'
-import { Navigate } from 'react-router-dom'
+import { signInWithPopup } from 'firebase/auth';
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
     display: flex;
@@ -75,6 +75,7 @@ const Signin = () => {
     const [password, setPassword] = useState("")
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -90,18 +91,16 @@ const Signin = () => {
     const signInWithGoogle = async () => {
         dispatch(loginStart());
 
-        signInWithPopup(auth, provider)
-        .then((result) => {
+        signInWithPopup(auth, provider).then((result) => {
             axios.post("/auth/google", {
                 name: result.user.displayName,
                 email: result.user.email,
                 img: result.user.photoURL
             }).then((res)=>{
                 dispatch(loginSuccess(res.data))
-                Navigate("/")
+                navigate("/")
             });
-        })
-        .catch(() => {dispatch(loginFailure())});
+        }).catch(() => {dispatch(loginFailure())});
     }
 
   return (
