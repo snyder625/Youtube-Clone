@@ -11,7 +11,7 @@ export const addVideo = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //UPDATE A VIDEO
 export const updateVideo = async (req, res, next) => {
@@ -30,7 +30,7 @@ export const updateVideo = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //DELETE A VIDEO
 export const deleteVideo = async (req, res, next) => {
@@ -47,7 +47,7 @@ export const deleteVideo = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //GET A VIDEO
 export const getVideo = async (req, res, next) => {
@@ -57,7 +57,7 @@ export const getVideo = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //ADD VIEWS
 export const addView = async (req, res, next) => {
@@ -69,7 +69,7 @@ export const addView = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //GET RANDOM VIDEOS
 export const getRandomVideo = async (req, res, next) => {

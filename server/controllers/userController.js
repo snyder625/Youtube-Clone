@@ -15,7 +15,7 @@ export const updateUser = async (req, res, next) => {
     } else {
         return next(createError(403, "You can only update your account"));
     }
-}
+};
 
 //DELETE USER
 export const deleteUser = async (req, res, next) => {
@@ -29,7 +29,7 @@ export const deleteUser = async (req, res, next) => {
     } else {
         return next(createError(403, "You can only delete your account"));
     }
-}
+};
 
 //GET A USER
 export const getUser = async (req, res, next) => {
@@ -39,7 +39,7 @@ export const getUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //SUBSCRIBE USER
 export const subscribeUser = async (req, res, next) => {
@@ -54,7 +54,7 @@ export const subscribeUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //UNSUBSCRIBE A USER
 export const unsubscribeUser = async (req, res, next) => {
@@ -69,7 +69,7 @@ export const unsubscribeUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //LIKE A VIDEO
 export const like = async (req, res, next) => {
@@ -84,7 +84,7 @@ export const like = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 //DISLIKE A VIDEOS
 export const dislike = async (req, res, next) => {
@@ -99,4 +99,4 @@ export const dislike = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};

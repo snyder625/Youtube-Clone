@@ -8,13 +8,12 @@ import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import Comments from '../components/Comments';
-import Card from '../components/Card'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { dislike, fetchSuccess, like } from '../redux/videoSlice';
-import { subscriptions } from '../redux/userSlice'
+import { dislike, fetchFailure, fetchStart, fetchSuccess, like } from '../redux/videoSlice.js';
+import { subscription } from '../redux/userSlice'
 import { format } from 'timeago.js';
-import { Recommendation } from '../components/Recommendation';
+import Recommendation from '../components/Recommendation';
 
 const Container = styled.div`
   display: flex;
@@ -125,45 +124,46 @@ const VideoFrame = styled.video`
 
 const Video = () => {
 
-  const dispatch = useDispatch()
-  const {currentUser} = useSelector(state=>state.user)
-  const {currentVideo} = useSelector(state=>state.video)
+  const {currentUser} = useSelector(state=>state.user);
+  const {currentVideo} = useSelector(state=>state.video);
+  const dispatch = useDispatch();
 
-  
-
-  const path = useLocation().pathname.split("/")[2]
+  const path = useLocation().pathname.split("/")[2];
 
   const [channel, setChannel] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
+      dispatch(fetchStart())
       try {
-        const videoRes = await axios.get(`/videos/find/${path}`)
-        const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`)
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`);
 
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
       } catch (error) {
+        dispatch(fetchFailure())
+        console.log(error);
       }
-    }
+    };
     fetchData();
-  }, [path, dispatch])
+  }, [path]);
 
   const handleLike = async () => {
     await axios.put(`/users/like/${currentVideo._id}`)
-    dispatch(like(currentVideo._id))
+    dispatch(like(currentUser._id))
   };
 
   const handleDislike = async () => {
     await axios.put(`/users/dislike/${currentVideo._id}`)
-    dispatch(dislike(currentVideo._id))
+    dispatch(dislike(currentUser._id))
   };
 
   const handleSub = async () => {
-    currentUser.subscribedUsers(channel._id) ?
+    currentUser.subscribedUsers.includes(channel._id) ?
     await axios.put(`/users/unsub/${channel._id}`) :
     await axios.put(`/users/sub/${channel._id}`);
-    dispatch(subscriptions(channel._id))
+    dispatch(subscription(channel._id))
   }
 
   return (
@@ -174,7 +174,7 @@ const Video = () => {
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
-          <Info>{currentVideo.views} views • 2 days ago</Info>
+          <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
           <Buttons>
             <Button onClick={handleLike}>{currentVideo.likes?.includes(currentUser._id) ? <ThumbUpIcon/> :<ThumbUpOutlinedIcon />}{currentVideo.likes?.length}</Button>
             <Button onClick={handleDislike}>{currentUser.dislikes?.includes(currentUser._id) ? <ThumbDownIcon /> :<ThumbDownOffAltOutlinedIcon/>}Dislike</Button>

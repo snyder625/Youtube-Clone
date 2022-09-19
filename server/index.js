@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/usersRoute.js'
 import videoRoutes from './routes/videosRoute.js'
@@ -10,8 +9,6 @@ import authRoutes from './routes/authRoute.js'
 
 const app = express();
 dotenv.config();
-
-app.use(bodyParser.urlencoded({limit:'30mb', extended: true}));
 
 const connect = ()=> {
     mongoose.connect(process.env.MONGO).then(() =>{
