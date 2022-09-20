@@ -176,8 +176,8 @@ const Video = () => {
         <Details>
           <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
           <Buttons>
-            <Button onClick={handleLike}>{currentVideo.likes?.includes(currentUser._id) ? <ThumbUpIcon/> :<ThumbUpOutlinedIcon />}{currentVideo.likes?.length}</Button>
-            <Button onClick={handleDislike}>{currentUser.dislikes?.includes(currentUser._id) ? <ThumbDownIcon /> :<ThumbDownOffAltOutlinedIcon/>}Dislike</Button>
+            {/* <Button onClick={handleLike}>{currentVideo.likes?.includes(currentUser._id) ? <ThumbUpIcon/> :<ThumbUpOutlinedIcon />}{currentVideo.likes?.length}</Button> */}
+            {/* <Button onClick={handleDislike}>{currentUser.dislikes?.includes(currentUser._id) ? <ThumbDownIcon /> :<ThumbDownOffAltOutlinedIcon/>}Dislike</Button> */}
             <Button><ReplyOutlinedIcon/>Share</Button>
             <Button><AddTaskOutlinedIcon/>Save</Button>
           </Buttons>
@@ -192,7 +192,7 @@ const Video = () => {
               <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={handleSub}>{currentUser.subscribedUsers?.includes(channel._id)? "SUBSCRIBED": "SUBSCRIBE"}</Subscribe>
+          {/* <Subscribe onClick={handleSub}>{currentUser.subscribedUsers?.includes(channel._id)? "SUBSCRIBED": "SUBSCRIBE"}</Subscribe> */}
         </Channel>
         <Hr />
         <Comments videoId={currentVideo._id}/>

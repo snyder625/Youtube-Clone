@@ -38,7 +38,7 @@ const Comments = ({videoId}) => {
             setComments(res.data);
         }
         fetchComments();
-    },[])
+    },[videoId]);
 
 
   return (
