@@ -14,6 +14,7 @@ import { dislike, fetchFailure, fetchStart, fetchSuccess, like } from '../redux/
 import { subscription } from '../redux/userSlice'
 import { format } from 'timeago.js';
 import Recommendation from '../components/Recommendation';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
   display: flex;
@@ -131,16 +132,17 @@ const Video = () => {
   const path = useLocation().pathname.split("/")[2];
 
   const [channel, setChannel] = useState({})
+  const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(fetchStart())
       try {
         const videoRes = await axios.get(`/videos/find/${path}`);
         const channelRes = await axios.get(`/users/find/${videoRes.data.userId}`);
 
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
+        setRerender(!rerender);
       } catch (error) {
         dispatch(fetchFailure())
         console.log(error);
@@ -166,8 +168,11 @@ const Video = () => {
     dispatch(subscription(channel._id))
   }
 
-  return (
+  return (rerender &&(
     <Container>
+      <Helmet>
+        <title>{currentVideo.title}</title>
+      </Helmet>
       <Content>
         <VideoWrapper>
           <VideoFrame src={currentVideo.videoUrl} controls/>
@@ -176,8 +181,8 @@ const Video = () => {
         <Details>
           <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
           <Buttons>
-            {/* <Button onClick={handleLike}>{currentVideo.likes?.includes(currentUser._id) ? <ThumbUpIcon/> :<ThumbUpOutlinedIcon />}{currentVideo.likes?.length}</Button> */}
-            {/* <Button onClick={handleDislike}>{currentUser.dislikes?.includes(currentUser._id) ? <ThumbDownIcon /> :<ThumbDownOffAltOutlinedIcon/>}Dislike</Button> */}
+            <Button onClick={handleLike}>{currentVideo.likes?.includes(currentUser._id) ? <ThumbUpIcon/> :<ThumbUpOutlinedIcon />}{currentVideo.likes?.length}</Button>
+            <Button onClick={handleDislike}>{currentUser.dislikes?.includes(currentUser._id) ? <ThumbDownIcon /> :<ThumbDownOffAltOutlinedIcon/>}Dislike</Button>
             <Button><ReplyOutlinedIcon/>Share</Button>
             <Button><AddTaskOutlinedIcon/>Save</Button>
           </Buttons>
@@ -192,14 +197,14 @@ const Video = () => {
               <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          {/* <Subscribe onClick={handleSub}>{currentUser.subscribedUsers?.includes(channel._id)? "SUBSCRIBED": "SUBSCRIBE"}</Subscribe> */}
+          <Subscribe onClick={handleSub}>{currentUser.subscribedUsers?.includes(channel._id)? "SUBSCRIBED": "SUBSCRIBE"}</Subscribe>
         </Channel>
         <Hr />
         <Comments videoId={currentVideo._id}/>
       </Content>
       <Recommendation tags={currentVideo.tags} />
     </Container>
-  )
+  ))
 }
 
 export default Video

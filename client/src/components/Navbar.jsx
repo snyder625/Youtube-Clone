@@ -86,11 +86,11 @@ const Navbar = () => {
             <Wrapper>
                 <Search>
                     <Input placeholder="Search" onChange={e=>setQ(e.target.value)}/>
-                    <SearchOutlinedIcon onClick={()=>{navigate(`/search?q=${q}`)}}/>
+                    <SearchOutlinedIcon style={{cursor: 'pointer'}} onClick={()=>{navigate(`/search?q=${q}`)}}/>
                 </Search>
                 {currentUser? (
                     <User>
-                        <VideoCallOutlinedIcon onClick={()=> setOpen(true)} />
+                        <VideoCallOutlinedIcon style={{cursor: 'pointer'}} onClick={()=> setOpen(true)} />
                         <Avatar src={currentUser.img}/>
                         {currentUser.name}
                     </User>
